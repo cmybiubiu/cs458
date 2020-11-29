@@ -152,7 +152,7 @@ def start_ping(net):
 def fetch_webpage(net):
     h1 = net.get('h1')
     h2 = net.get('h2')
-    cmd = "curl -o /dev/null -s -w %%{time_total} %s/http/index.html > %s/download.txt" % (h1.IP(), args.dir)
+    cmd = "curl -o /dev/null -s -w %%{time_total} %s/http/index.html" % (h1.IP())
     popen = h2.popen(cmd, shell=True)
     popen.wait()
     now = time()
