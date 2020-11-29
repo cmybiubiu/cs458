@@ -152,7 +152,7 @@ def start_ping(net):
 def fetch_webpage(net):
     h1 = net.get('h1')
     h2 = net.get('h2')
-    cmd = "curl -o /dev/null -s -w %%{time_total} %s/http/index.html > %s/download.txt" % (h1.IP(), args.dir)
+    cmd = "curl -o /dev/null -s -w %%{time_total} %s/http/index.html" % (h1.IP())
     popen = h2.popen(cmd, shell=True)
     popen.wait()
     return float(popen.communicate()[0])
@@ -210,6 +210,7 @@ def bufferbloat():
     while True:
         # do the measurement (say) 3 times.
         fetch_time = fetch_webpage(net)
+
         time_measures.append(fetch_time)
 
         sleep(2)
@@ -223,6 +224,9 @@ def bufferbloat():
     # TODO: compute average (and standard deviation) of the fetch
     # times.  You don't need to plot them.  Just note it in your
     # README and explain.
+    pwd = "%s/download.txt" % args.dir
+    with open(pwd, "w") as outfile:
+        outfile.write("\n".join(time_measures))
 
     avg = helper.avg(time_measures)
     sd = helper.stdev(time_measures)
