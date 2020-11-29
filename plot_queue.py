@@ -41,6 +41,12 @@ parser.add_argument('--every',
                     default=1,
                     type=int)
 
+parser.add_argument('--type', '-t',
+                    help="Type of data: queue/download data.",
+                    default="queue", # show the queue data
+                    type=str)
+
+
 args = parser.parse_args()
 
 if args.legend is None:
@@ -74,7 +80,14 @@ for i, f in enumerate(args.files):
     ax.scatter(xaxis, qlens, label=args.legend[i], **get_style(i))
     ax.xaxis.set_major_locator(MaxNLocator(4))
 
-plt.ylabel("Packets")
+if args.type == "queue":
+    plt.ylabel("Packets")
+elif args.type == "download":
+    plt.ylabel("Download time")
+else:
+    print >> sys.stderr, "%error: wrong data type"
+
+
 plt.grid(True)
 plt.xlabel("Seconds")
 
